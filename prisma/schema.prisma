@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      String   @id @default(cuid())
+  email   String   @unique
+  hash    String
+  role    String   @default("PATIENT") // PATIENT | DOCTOR
+  profile Profile?
+}
+
+model Profile {
+  id           String      @id @default(cuid())
+  userId       String      @unique
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String      @unique @default(cuid())
+  name         String      @default("")
+  bloodGroup   String      @default("")
+  allergies    String      @default("")
+  conditions   String      @default("")
+  contactName  String      @default("")
+  contactPhone String      @default("")
+  medicines    Medicine[]
+  logs         AccessLog[]
+}
+
+model Medicine {
+  id        String  @id @default(cuid())
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  name      String
+  dose      String  @default("")
+  time      String  @default("08:00")
+}
+
+model AccessLog {
+  id          String   @id @default(cuid())
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  doctorEmail String
+  at          DateTime @default(now())
+}
