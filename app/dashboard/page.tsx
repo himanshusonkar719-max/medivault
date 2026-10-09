@@ -26,9 +26,10 @@ export default async function Dashboard({
     },
   });
 
-  const baseUrl =
+  const baseUrl = (
     process.env.NEXT_PUBLIC_BASE_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000")
+  ).replace(/\/$/, "");
   const publicUrl = `${baseUrl}/e/${profile.token}`;
   const qrDataUrl = await QRCode.toDataURL(publicUrl, {
     margin: 1,

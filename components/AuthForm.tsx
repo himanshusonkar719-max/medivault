@@ -158,9 +158,6 @@ export default function AuthForm({ initialError }: { initialError?: string }) {
                 placeholder="Enter invite code"
                 required
               />
-              <p style={{ fontSize: "0.8rem", color: "var(--ink-faint)", marginTop: "4px" }}>
-                Demo code: <code style={{ color: "var(--ink)" }}>hospital-2026</code>
-              </p>
             </div>
           )}
 
